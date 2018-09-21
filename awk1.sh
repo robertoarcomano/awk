@@ -97,3 +97,13 @@
 
 # 31. Change Record Separator
 # awk -v RS="." // $0
+
+# 32. Array Example
+awk '/^# [0-9]+\./ {
+  print $0
+  $1=$2=""
+  split($0,vett," ")
+  for (i in vett)
+    print i ": " vett[i]
+  print "WORDS COUNT: " length(vett) "\n"
+}' $0
