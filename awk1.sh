@@ -32,3 +32,40 @@
 
 # 11. print longest record
 # awk ' { if (length($0) > length(max)) max=$0 } END { print max" "length(max) }' $0
+
+# 12. print rows having more that 10 columns
+# awk 'NF > 10' $0
+
+# 13. Show, for each row, ROW Number FIELD Number
+# awk 'NF > 0 { print NR,FNR,NF }' $0
+
+# 14. Set Output Field Separator
+# awk 'BEGIN { OFS="->"} { print $1,$2,$3,$4 }' $0
+
+# 15. NOT + AND Conditions
+# awk '!/# awk/&&(NF>1) { print $0 }' $0
+
+# 16. Set Output Record Separator
+# awk 'BEGIN { ORS="|\n"} { print $0 }' $0
+
+# 17. Set stdin and file
+# awk '{ print "Row: ",$0 }' $0 -
+
+# 18. Sed alternative: replace awk -> gawk
+# awk '{ gsub("awk","gawk"); print $0}' $0
+
+# 19. Use script1.awk, which includes script2.awk
+# awk -f script1.awk awk1.sh
+
+# 20. Use awk extensions (library)
+# gawk -lordchr 'BEGIN { print chr(65) }'
+
+# 21. cut alternative (substr) (from 1st to 20th char | 21th till end)
+# awk '{ print substr($0,1,20) "|" substr($0,21) }' $0
+
+# 22. Search string position (searching for BEGIN)
+# awk '{ print index($0,"BEGIN"),$0 }' $0
+
+# 23. Change Input Field Separator inline: 1. print left of "." and second word
+#     on right of "." using " " as separator
+# awk '{ FS="."; first=$1; $1=""; split($0,a," "); print first,a[2] }' $0
