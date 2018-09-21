@@ -55,7 +55,7 @@
 # awk '{ gsub("awk","gawk"); print $0}' $0
 
 # 19. Use script1.awk, which includes script2.awk
-# awk -f script1.awk awk1.sh
+# awk -f script1.awk $0
 
 # 20. Use awk extensions (library)
 # gawk -lordchr 'BEGIN { print chr(65) }'
@@ -69,3 +69,31 @@
 # 23. Change Input Field Separator inline: 1. print left of "." and second word
 #     on right of "." using " " as separator
 # awk '{ FS="."; first=$1; $1=""; split($0,a," "); print first,a[2] }' $0
+
+# 24. Match/No Match regexp
+# awk '($2~/awk/) && ($0!~/gawk/) {print $0}' $0
+
+# 25. Ignore case Match
+# awk 'tolower($0)~/begin/' $0
+# awk -v IGNORECASE=1 '/begin/' $0
+# awk 'BEGIN{IGNORECASE=1 } /begin/' $0
+
+# 26. Match index odd and even numbers
+# awk '/^# [0-9]{0,1}[13579]\./' $0
+# awk '/^# [0-9]{0,1}[^13579]\./' $0
+# awk '/^# [0-9]*[^13579]\./' $0
+
+# 27. Match index odd just with at least 2 numbers
+# awk '/^# [0-9]+[13579]\./' $0
+
+# 28. Match index just with at just 0 or 1 number
+# awk '/^# [0-9]?\./' $0
+
+# 29. Match all lines not containing digits using DYNAMIC Regular Expression
+# awk 'BEGIN{RE="[0-9]"} (NF>0 && $0!~RE)' $0
+
+# 30. Conversion "{" in "{\n" and "}" in "\n}\n", INDENT
+# awk '{ gsub(/{/,"{\n\t"); gsub(/}/,"\n}\n"); print }' $0
+
+# 31. Change Record Separator
+# awk -v RS="." // $0
