@@ -133,7 +133,7 @@
 #   print $0 " | " temp \
 # }' $0
 
-# 36. redirecting first 2 columns to single files /tmp/1 and /tmp/2
+# 36. redirecting first 2 columns to single files /tmp/1 and /tmp/2, use system to exec
 # awk '{ \
 #   print $1 > "/tmp/1"
 #   print $2 > "/tmp/2"
@@ -153,7 +153,7 @@
 # 39. exit example
 # awk 'NR > 10 { exit } // { print "NR:",NR,$0}' $0
 
-# 40 argc and argc example
+# 40. argc and argc example
 # awk 'BEGIN {
 #   for (i in ARGV)
 #     print i":",ARGV[i];
@@ -163,7 +163,7 @@
 # 41. FILENAME example
 # awk ' { print FILENAME; exit }' $0
 
-# 42. PROCINFO example
+# 42. PROCINFO and isarray() example
 # awk 'BEGIN {
 #   for(i in PROCINFO) {
 #     if (isarray(PROCINFO[i]))
@@ -173,3 +173,59 @@
 #       print i,PROCINFO[i]
 #   }
 # }' $0
+
+# 43. match example using on filter, printing and showing return, from a variable containing regular expression
+# awk '
+#   BEGIN {
+#     REG=" ..\\."
+#   }
+#   match($0,REG) > 0 {
+#     print("match($0,REG):",match($0,REG),$0)
+#   }
+# ' $0
+
+# 44. strtonum example
+# awk '$2 ~ /..\./ {
+#   num = $2
+#   gsub(/\./,"",num)
+#   n = strtonum(num);
+#   print "strtonum("num"*10) = " n*10," ",$0
+# }' $0
+
+# 45. sysdate(epoch),mktime,strftime
+# awk 'BEGIN {
+#   print "systime():",systime()
+#   print "mktime(\"2000 01 01 00 00 00\"):",mktime("2000 01 01 00 00 00")
+#   print "strftime(\"%d %m %Y %H %M %S\",946681200):",strftime("%d %m %Y %H %M %S",946681200)
+# }' $0
+
+# 46. User defined function example, return strtonum and quadratic
+# awk '
+#   function toNumAndQuadratic(s) {
+#     return strtonum(s)^2
+#   }
+#   BEGIN {
+#     NumExpr="^# [0-9]+\\."
+#   }
+#   match($0,NumExpr) > 0 {
+#     print "toNumAndQuadratic(\""$2"\"): " toNumAndQuadratic($2)," " $0
+#   }
+# ' $0
+
+# 47. Indirect function calls
+# awk '
+# function odd() {
+#   return "called function odd";
+# }
+# function even() {
+#   return "called function even";
+# }
+# BEGIN {
+#   NumExpr="^# [0-9]+\\."
+# }
+# match($0,NumExpr) > 0 {
+#   num = strtonum($2)
+#   t = num % 2 != 0 ? "odd" : "even"
+#   print "num:",num ",","type:",t ",",@t()
+# }
+# ' $0
