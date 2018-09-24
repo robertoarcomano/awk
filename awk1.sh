@@ -99,12 +99,77 @@
 # awk -v RS="." // $0
 
 # 32. Array Example (Sorted)
-awk '/^# [0-9]+\./ {
-  print $0
-  $1=$2=""
-  split($0,vett," ")
-  asort(vett)
-  for (i in vett)
-    print i ": " vett[i]
-  print "WORDS COUNT: " length(vett) "\n"
-}' $0
+# awk '/^# [0-9]+\./ {
+#   print $0
+#   $1=$2=""
+#   split($0,vett," ")
+#   asort(vett)
+#   for (i in vett)
+#     print i ": " vett[i]
+#   print "WORDS COUNT: " length(vett) "\n"
+# }' $0
+
+# 33. FIELDWIDTHS example
+# echo "12345ABCDE1234567890ABC"|awk 'BEGIN{FIELDWIDTHS="5 5 10 3"} {
+#   print \
+#     "Initial String:",$0,"\n"\
+#     "Using FIELDWIDTHS to extract Fixed Width Fields","\n"\
+#     "First 5 Numbers:",$1,"\n"\
+#     "First 5 Chars:",$2,"\n"\
+#     "First 10 Numbers:",$3,"\n"\
+#     "First 3 Chars:",$4,"\n"\
+# }'
+
+# 34. getline read-ahead same file example
+# awk '{
+#   while (getline temp) {
+#     print "$0:",$0," getline:",temp
+#   }
+# }' $0
+
+# 35. getline read same file in parallel
+# awk -v FILENAME=$0 '{ \
+#   getline temp < FILENAME; \
+#   print $0 " | " temp \
+# }' $0
+
+# 36. redirecting first 2 columns to single files /tmp/1 and /tmp/2
+# awk '{ \
+#   print $1 > "/tmp/1"
+#   print $2 > "/tmp/2"
+# } END { \
+#   print "First column"
+#   system("cat /tmp/1")
+#   print "Second column"
+#   system("cat /tmp/2")
+# }' $0
+
+# 37. range between { and } (on/off feature)
+# awk '/{/,/}/' $0
+
+# 38. next example
+# awk 'NF > 3 {next} // {print "NF:",NF,$0}' $0
+
+# 39. exit example
+# awk 'NR > 10 { exit } // { print "NR:",NR,$0}' $0
+
+# 40 argc and argc example
+# awk 'BEGIN {
+#   for (i in ARGV)
+#     print i":",ARGV[i];
+#   print "ARGC:",ARGC
+# }' $0
+
+# 41. FILENAME example
+# awk ' { print FILENAME; exit }' $0
+
+# 42. PROCINFO example
+# awk 'BEGIN {
+#   for(i in PROCINFO) {
+#     if (isarray(PROCINFO[i]))
+#       for(j in PROCINFO[i])
+#         print i,j,PROCINFO[i][j]
+#     else
+#       print i,PROCINFO[i]
+#   }
+# }' $0
