@@ -229,3 +229,18 @@
 #   print "num:",num ",","type:",t ",",@t()
 # }
 # ' $0
+
+# 48. split / join example
+# awk '
+# BEGIN {
+#   NumExpr="^# [0-9]+\\."
+# }
+# match($0,NumExpr) > 0 {
+#   print "ORIGINAL LINE READ: " $0;
+#   split($0,a," ");
+#   b = ""
+#   for (i in a)
+#     b = b a[i] " "
+#   print "AFTER SPLIT / JOIN: " b,"\n"
+# }
+# ' $0
