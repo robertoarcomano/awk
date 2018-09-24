@@ -244,3 +244,28 @@
 #   print "AFTER SPLIT / JOIN: " b,"\n"
 # }
 # ' $0
+
+# 49. Convert this shell file to README.md for github
+awk '
+BEGIN {
+  print "# Very Simple AWK Examples"
+}
+/#!\/bin\/bash/ { next }
+/^# [0-9]*\./ {
+  if (NOT_FIRST)
+    print "```"
+  else
+    NOT_FIRST = 1
+  $1 = "##"
+  print
+  print "```"
+  next
+}
+{
+  sub(/^# /,"",$0)
+  print
+}
+END {
+  print "```"
+}
+' $0
